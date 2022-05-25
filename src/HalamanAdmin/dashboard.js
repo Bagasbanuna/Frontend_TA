@@ -1,10 +1,9 @@
-import { Sidebar } from "../lib/sidebar";
+import { Sidebar, Sidetoside } from "../lib/sidebar";
 
 function Dashboard(){
     return (
-        <div className="container">
-            <h1>Dashboard</h1>
-            
+        <div className="">
+            <Sidebar/>
         </div>
     )
 }

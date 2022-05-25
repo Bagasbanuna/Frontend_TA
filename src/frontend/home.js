@@ -1,9 +1,14 @@
-import { Navbar } from "../lib/navbar"
+import { Footbar } from "./footbar"
+import { Main } from "./main"
+import { Navbar, NewNavbar } from "./navbar"
 
 function TampilanHome(){
     return (
         <div>
-            <Navbar/>
+            <NewNavbar/>
+            <Main/>
+            <Footbar/>
+
         </div>
     )
 }
