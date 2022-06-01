@@ -30,7 +30,7 @@
 // import { HalamanAbout } from './halaman_about';
 
 import {useNavigate} from 'react-router-dom'
-import { LandingPage } from './login/landingpage';
+import { TampilanHome } from './frontend/home';
 
 function cek(navigate){
   console.log("cek login")
@@ -47,7 +47,7 @@ function App() {
   return (
     <div className='container'>
       
-     <LandingPage />
+     <TampilanHome />
     </div>
   );
 }

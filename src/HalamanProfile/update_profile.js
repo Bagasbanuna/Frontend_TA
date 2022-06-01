@@ -4,7 +4,7 @@ import { MyForm } from "../lib/form"
 function UpdateProfile(){
     return (
         <div className="container d-flex justify-content-end">
-            <div className="col-sm-12 col-md-6 col-lg-4 card m-2 p-2">
+            <div className="col-sm-12 col-md-6 col-lg-4 card mt-4 p-2">
             <h3>Update Profile</h3>
             <div className="row m-auto">
                     <div className="col">

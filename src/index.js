@@ -18,43 +18,57 @@
 
 
 import ReactDOM from 'react-dom/client'
-import { App } from './app';
-import { BrowserRouter, Route, Router, Routes } from 'react-router-dom'
+
+import { BrowserRouter, Routes, Route} from 'react-router-dom'
 import { Provider } from 'react-redux'
-import { store, user } from './store'
+import { store } from './store'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { HalamanAbout } from './halaman_about';
-import { HomePage } from './home';
-import { LoginPage } from './login';
-import { LandingPage } from './login/landingpage';
-import { HalamanRegis } from './login/halaman_registrasi';
-import { HalamanProfile } from './profile/halaman_profile';
-import { TampilanProfile } from './HalamanProfile/profile';
-import { UpdateProfile } from './HalamanProfile/update_profile';
+import { MyRouter } from './my_router';
 import { Dashboard } from './HalamanAdmin/dashboard';
-import { TampilanHome } from './frontend/home';
+import { HalamanAdmin } from './HalamanAdmin/admin';
+import { Pengurus } from './HalamanAdmin/pengurus';
+import { UpdatePengurus } from './HalamanAdmin/update_pengurus';
+import { Anggota } from './HalamanAdmin/anggota';
+import { RencanaKerja } from './HalamanAdmin/rencana_kerja';
+import { Pengumuman } from './HalamanAdmin/pengumuman';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <Provider store={store}>
         <BrowserRouter>
             <Routes>
-                <Route path='/' element={<App />} />
-                <Route path='/aboutPage' element={<HalamanAbout />} />
-                <Route path='/homePage' element={<HomePage />} />
-                <Route path='/loginPage' element={<LoginPage />} />
-                <Route path='/landing' element={<LandingPage />} />
-                <Route path='/halamanregis' element={<HalamanRegis />} />
-                <Route path='/halamanprofile' element={< HalamanProfile/>}/>
+                {MyRouter.App().Router()}
+                {MyRouter.Login().Router()}
+                {MyRouter.Regis().Router()}
+                {MyRouter.Pengumuman().Router()}
+                {MyRouter.Profile().Router()}
+                {MyRouter.UpdateProfile().Router()}
+                {/* {MyRouter.halaman_admin().Router()} */}
+                {/* {MyRouter.halaman_dashboard().Router()} */}
+
+                <Route path='/halaman-admin' element={<HalamanAdmin/>} >
+                    <Route path='halaman-dashboard' element={<Dashboard/>}/>
+                    <Route path='halaman-pengurus' element={<Pengurus/>}/>
+                    <Route path='halaman-update-pengurus' element={<UpdatePengurus/>}/>
+                    <Route path='halaman-anggota' element={<Anggota/>}/>
+                    <Route path='halaman-rencana-kerja' element={<RencanaKerja/>}/>
+                    <Route path='halaman-pengumuman' element={<Pengumuman/>}/>
+
+
+                </Route>
+                {/* <Route path='/aboutPage' element={<HalamanAbout />} /> */}
+                {/* <Route path='/loginPage' element={<LoginPage />} /> */}
+                {/* {MyRouter.login().route}
+                {MyRouter.regis().route} */}
+                {/* <Route path='/halamanprofile' element={< HalamanProfile/>}/> */}
                 
                 {/* Profile */}
-                <Route path='/tampilan-profile' element={<TampilanProfile/>}/>
-                <Route path='/update-profile' element={<UpdateProfile/>}/>
+                {/* <Route path='/tampilan-profile' element={<TampilanProfile/>}/>
+                <Route path='/update-profile' element={<UpdateProfile/>}/> */}
                 
-                {/* Admin */}
-                <Route path='/dashboard' element={<Dashboard/>}/>
+              
 
                 {/* Frontend */}
-                <Route path='/home' element={<TampilanHome/>}/>
+                {/* <Route path='/home' element={<TampilanHome/>}/> */}
 
 
 

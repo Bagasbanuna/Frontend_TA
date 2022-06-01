@@ -19,8 +19,8 @@ function MyForm({ items, ketikaBerubah }) {
                     <div className=" ">
                         <label>{itm}</label>
                         {/* elm = html input */}
-                        <input className="form-control" placeholder={"Masukkan "+itm} onChange={(elm) => {
-                            body[itm] = elm.target.value
+                        <input className="form-control" placeholder={"Masukkan "+itm}
+                        onChange={(elm) => {body[itm] = elm.target.value
                             ketikaBerubah(body)
                         }}/>
                     </div>
