@@ -72,6 +72,12 @@ class App extends Component {
                         {this.state.greeting.map(a => {
                             return (
                                 <tr key={a.nim}>
+                                    <td>
+                                        
+                                        <Tombol title={"Edit"} warna={'success'} />
+                                        
+                                        <Tombol title={"Hapus"} warna={'danger'} />
+                                    </td>
                                     <td>{a.nim}</td>
                                     <td>{a.namaDepan}</td>
                                     <td >{a.namaBelakang}</td>
@@ -83,11 +89,7 @@ class App extends Component {
                                     <td >{a.tahunAngkatan}</td>
                                     <td >{a.fotoKtp}</td>
                                     <td >{a.fotoProfile}</td>
-                                    <td>
-                                        
-                                        <Tombol title={"Edit"} warna={'success'} />
-                                        <Tombol title={"Hapus"} warna={'danger'} />
-                                    </td>
+                                    
                                 </tr>
                             )
                         })}

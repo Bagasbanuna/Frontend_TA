@@ -23,8 +23,6 @@ import { BrowserRouter, Routes, Route} from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { store } from './store'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'jquery/dist/jquery.min.js'
-import 'bootstrap/dist/js/bootstrap.min.js'
 import { MyRouter } from './my_router';
 import { Dashboard } from './HalamanAdmin/dashboard';
 import { HalamanAdmin } from './HalamanAdmin/admin';
@@ -33,7 +31,6 @@ import { UpdatePengurus } from './HalamanAdmin/update_pengurus';
 import { Anggota } from './HalamanAdmin/anggota';
 import { RencanaKerja } from './HalamanAdmin/rencana_kerja';
 import { Pengumuman } from './HalamanAdmin/pengumuman';
-import { Berita } from './HalamanAdmin/berita';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <Provider store={store}>
@@ -55,8 +52,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                     <Route path='halaman-anggota' element={<Anggota/>}/>
                     <Route path='halaman-rencana-kerja' element={<RencanaKerja/>}/>
                     <Route path='halaman-pengumuman' element={<Pengumuman/>}/>
-                    <Route path='halaman-berita' element={<Berita/>}/>
-
+                </Route>
+                <Route path='/halaman-pengurus' element={<Pengurus/>}>
+                    <Route path='halaman-update-pengurus' element={<UpdatePengurus/>}/>
 
                 </Route>
                 {/* <Route path='/aboutPage' element={<HalamanAbout />} /> */}

@@ -40,7 +40,7 @@ function NewNavbar() {
                             <a className="link-secondary" href="#medsos">Subscribe</a>
                         </div>
                         <div className="col-4 text-center">
-                            <h3 className="pb-4 mb-4 fst-italic border-bottom" href="">IMMUKI</h3>
+                            <h3 className="pb-4 mb-4 fst-italic border-bottom" href="#home">IMMUKI</h3>
                         </div>
                         <div className="col-4 d-flex justify-content-end align-items-center">
                             <a className="link-secondary" href="#" aria-label="Search">
