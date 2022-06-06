@@ -1,11 +1,10 @@
-import { render } from "@testing-library/react"
-import axios from "axios"
-import { Modal } from "bootstrap"
-import { Component } from "react"
-import { Link, useNavigate } from "react-router-dom"
-import { Tombol } from "../lib/button"
-import { MyRouter } from "../my_router"
 
+import axios from "axios"
+import { Component } from "react"
+import { useNavigate } from "react-router-dom"
+import { Tombol } from "../lib/button"
+
+// YANG BISA DI MAP HANYA ARRAY
 
 var User = [
     {
@@ -73,136 +72,142 @@ var User = [
         ]
     }]
 
-function Wadah({state}){
+let modelUser = {profileData: User}
 
+function cekNull(data){
+    try {
+        return data.profile.jurusan['namaJurusan']
+    } catch (error) {
+        return "kosong"
+    }
+}
+
+/**
+ * @param {object} param
+ * @param {modelUser} param.state
+ */
+function Wadah({ state }) {
     let nav = useNavigate()
-    return(
+    return (
         <div>
             <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                    <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
-                        style={{ overflow: "auto", width: '100%', height: '100%' }}>
-                        <h1 className="h2">Pengurus</h1>
-                        <div className="btn-toolbar mb-2 mb-md-0">
-                            <div className="btn-group me-2" >
-                            </div>
+                <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+                    style={{ overflow: "auto", width: '100%', height: '100%' }}>
+                    <h1 className="h2">Pengurus</h1>
+                    <div className="btn-toolbar mb-2 mb-md-0">
+                        <div className="btn-group me-2" >
                         </div>
-
                     </div>
-                    <div >
-                        
-                        <table className="table table-striped " style={{ width: '3000' }}>
-                            <thead>
-                                <tr>
-                                    <th>
-                                        NIM
-                                    </th>
-                                    <th>
-                                        Nama Depan
-                                    </th>
-                                    <th>
-                                        Nama Belakang
-                                    </th>
-                                    <th>
-                                        Jurusan
-                                    </th>
 
-                                    <th>
-                                        Jabatan
-                                    </th>
+                </div>
+                <div >
 
-                                    <th>
-                                        Divisi
-                                    </th>
-                                    <th>
-                                        Alamat
-                                    </th>
-                                    <th>
-                                        Tempat Lahir
-                                    </th>
-                                    <th>
-                                        Tanggal Lahir
-                                    </th>
-                                    <th>
-                                        Jenis Kelamin
-                                    </th>
-                                    <th>
-                                        Nomor HP
-                                    </th>
-                                    <th>
-                                        Tahun Angkatan
-                                    </th>
-                                    <th>
-                                        Foto
-                                    </th>
-                                    <th>
-                                        Foto KTP
-                                    </th>
-                                    <th>
-                                        Aksi
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                    <table className="table table-striped " style={{ width: '3000' }}>
+                        <thead>
+                            <tr>
+                                <th>
+                                    NIM
+                                </th>
+                                <th>
+                                    Nama Depan
+                                </th>
+                                <th>
+                                    Nama Belakang
+                                </th>
+                                <th>
+                                    Jurusan
+                                </th>
 
-                                {state.profileData.map(e => {
+                                <th>
+                                    Jabatan
+                                </th>
 
+                                <th>
+                                    Divisi
+                                </th>
+                                <th>
+                                    Alamat
+                                </th>
+                                <th>
+                                    Tempat Lahir
+                                </th>
+                                <th>
+                                    Tanggal Lahir
+                                </th>
+                                <th>
+                                    Jenis Kelamin
+                                </th>
+                                <th>
+                                    Nomor HP
+                                </th>
+                                <th>
+                                    Tahun Angkatan
+                                </th>
+                                <th>
+                                    Foto
+                                </th>
+                                <th>
+                                    Foto KTP
+                                </th>
+                                <th>
+                                    Aksi
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
 
-                                    return (
-                                        <tr key={e.Id}>
-                                            <td>
+                            {state.profileData.map(e => {
+                                return (
+                                    <tr key={e.Id}>
 
-                                                <div className="row">
-                                                    {/* <Link to={'/halaman-admin/halaman-update-pengurus'}> */}
-                                                        <Tombol title={"Edit"} warna={'success'} className={'btn btn-sm'} onClick={()=>{
-                                                            state.updateData=e
-                                                            nav('/halaman-admin/halaman-update-pengurus', {state: e.profile})
-                                                        }}></Tombol>
-                                                    {/* </Link> */}
+                                        <td>{e.profile.nim}</td>
+                                        <td>{e.profile.namaDepan}</td>
+                                        <td>{e.profile.namaBelakang}</td>
+                                        <td>{cekNull(e)}</td>
 
-                                                    <Tombol title={"Hapus"} warna={'danger'} className={' btn btn-sm'} 
-                                                    onClick={()=> {}}/>
-                                                    
-                                                    
-                                                </div>
-                                            </td>
-                                            <td>{e.profile.nim}</td>
-                                            <td>{e.profile.namaDepan}</td>
-                                            <td>{e.profile.namaBelakang}</td>
-                                            <td>{e.profile.jurusan.map(e => {
-                                                return (
-                                                    <div key={e.Id}>{e.namaJurusan}</div>
-                                                )
-                                            })}</td>
+                                        {/* <td>{e.profile.jabatan.map(e => {
+                                            return (
+                                                <div key={e.Id}>{e.namaJabatan}</div>
+                                            )
+                                        })}</td>
 
-                                            <td>{e.profile.jabatan.map(e => {
-                                                return (
-                                                    <div key={e.Id}>{e.namaJabatan}</div>
-                                                )
-                                            })}</td>
+                                        <td>{e.profile.divisi.map(e => {
+                                            return (
+                                                <div key={e.Id}>{e.namaDivisi}</div>
+                                            )
+                                        })}</td> */}
 
-                                            <td>{e.profile.divisi.map(e => {
-                                                return (
-                                                    <div key={e.Id}>{e.namaDivisi}</div>
-                                                )
-                                            })}</td>
+                                        <td>{e.profile.alamat}</td>
+                                        <td>{e.profile.tempatLahir}</td>
+                                        <td>{e.profile.tanggalLahir}</td>
+                                        <td>{e.profile.jenisKelamin}</td>
+                                        <td>{e.profile.nomorHp}</td>
+                                        <td>{e.profile.tahunAngkatan}</td>
+                                        <td>{e.profile.fotoProfile}</td>
+                                        <td>{e.profile.fotoKtp}</td>
+                                        <td>
 
-                                            <td>{e.profile.alamat}</td>
-                                            <td>{e.profile.tempatLahir}</td>
-                                            <td>{e.profile.tanggalLahir}</td>
-                                            <td>{e.profile.jenisKelamin}</td>
-                                            <td>{e.profile.nomorHp}</td>
-                                            <td>{e.profile.tahunAngkatan}</td>
-                                            <td>{e.profile.fotoProfile}</td>
-                                            <td>{e.profile.fotoKtp}</td>
+                                            <div className="row">
+                                                {/* <Link to={'/halaman-admin/halaman-update-pengurus'}> */}
+                                                <Tombol title={"Edit"} warna={'success'} className={'btn btn-sm'} onClick={() => {
+                                                    state.updateData = e
+                                                    nav('/halaman-admin/halaman-update-pengurus', { state: e.profile })
+                                                }}></Tombol>
+                                                {/* </Link> */}
+
+                                                <Tombol title={"Hapus"} warna={'danger'} className={' btn btn-sm'}
+                                                    onClick={() => { }} />
 
 
-                                        </tr>
-                                    )
-                                })}
-                            </tbody>
-                        </table>
-                    </div>
-                </main>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                )
+                            })}
+                        </tbody>
+                    </table>
+                </div>
+            </main>
         </div>
 
     )
@@ -228,7 +233,7 @@ class App extends Component {
         this.updateProfile = this.updateData.bind(this)
         // this.updateJabatan = this.updateJabatan.bind(this)
 
-        
+
     }
 
     updateData(a) {
@@ -239,14 +244,14 @@ class App extends Component {
     }
 
 
-    
+
     render() {
-        
+
         return (
             <div >
-                <Wadah state={this.state}/>
+                <Wadah state={this.state} />
 
-                
+
             </div>
         )
     }

@@ -1,23 +1,105 @@
 import axios from "axios"
 import { Component } from "react"
+import { useNavigate } from "react-router-dom"
 import { Tombol } from "../lib/button"
 
-class App extends Component {
-    constructor(props) {
-        super(props)
-        this.state = { greeting: [] }
-        this.updateState = this.updateState.bind(this)
+var User = [
+    {
+        "Id": 1,
+        "username": "user1",
+        "email": "user1@gmail.com",
+        "password": "user1",
+        "createAt": "2022-05-10T15:24:30.177Z",
+        "updateAt": "2022-05-29T15:48:06.169Z",
+        "profile": {
+            "Id": 1,
+            "nim": 1,
+            "namaDepan": "namaDepan1",
+            "namaBelakang": "namaBelakang1",
+            "alamat": "alamat1",
+            "tempatLahir": "tempatLahir1",
+            "tanggalLahir": "tanggalLahir1",
+            "jenisKelamin": "jenisKelamin1",
+            "nomorHp": "nomorHp1",
+            "tahunAngkatan": 203,
+            "fotoKtp": "fotoKtp1",
+            "fotoProfile": "fotoProfile1",
+            "userId": 1,
+            "divisi": [
+                {
+                    "Id": 1,
+                    "namaDivisi": "kaderisasi",
+                    "profileId": 1
+                }
+            ],
+            "jabatan": [
+                {
+                    "Id": 1,
+                    "namaJabatan": "ketua",
+                    "profileId": 1
+                }
+            ],
+            "jurusan": [
+                {
+                    "Id": 1,
+                    "namaJurusan": "ti-mdi",
+                    "profileId": 1
+                }
+            ]
+        },
+        "kritiksaran": [
+            {
+                "Id": 1,
+                "subjek": "Kamar mandi",
+                "komentar": "Jangan lupa bersihkan",
+                "userId": 1,
+                "User": {
+                    "Id": 1,
+                    "username": "user1",
+                    "email": "user1@gmail.com",
+                    "password": "user1",
+                    "createAt": "2022-05-10T15:24:30.177Z",
+                    "updateAt": "2022-05-29T15:48:06.169Z"
+                }
+            }
+        ],
+        "rencanakerja": [
+            {
+                "Id": 1,
+                "title": "Kajian Subuh",
+                "tanggal": "2022-04-01T00:00:00.000Z",
+                "keterangan": "Kajian diadakan di masjid",
+                "createAt": "2022-05-11T09:00:01.665Z",
+                "updateAt": "2022-05-11T09:00:01.666Z",
+                "status": "Pending",
+                "userId": 1,
+                "files": [
+                    {
+                        "Id": 1,
+                        "file": "LPJ Semnas",
+                        "createAt": "2022-05-12T07:46:53.652Z",
+                        "rencanakerjaId": 1,
+                        "jenisFileId": null,
+                        "gallery": [
+                            {
+                                "Id": 1,
+                                "gambar": "rewofkmmfqeofo",
+                                "filesId": 1
+                            }
+                        ],
+                        "jenisFile": null
+                    }
+                ]
+            }
+        ]
+    }]
 
-        axios.get('http://localhost:5000/api/v1/profile').then(a => this.updateState(a.data))
-    }
-    updateState(b) {
-        this.setState({
-            greeting: b
-        })
-    }
+function IsiAgt({ state }) {
+    let nav = useNavigate()
+    
 
-    render() {
-        return (
+    return (
+        <div>
             <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                 <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h1 className="h2">Anggota</h1>
@@ -69,27 +151,29 @@ class App extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {this.state.greeting.map(a => {
+                        {state.Agt.map(a => {
                             return (
-                                <tr key={a.nim}>
+                                <tr key={a.Id}>
                                     <td>
-                                        
-                                        <Tombol title={"Edit"} warna={'success'} />
-                                        
+
+                                        <Tombol title={"Edit"} warna={'success'}
+                                        onClick={() =>{ state.updateAgt = a
+                                        nav('/halaman-admin/halaman-update-anggota', {state: a.profile})}}/>
+
                                         <Tombol title={"Hapus"} warna={'danger'} />
                                     </td>
-                                    <td>{a.nim}</td>
-                                    <td>{a.namaDepan}</td>
-                                    <td >{a.namaBelakang}</td>
-                                    <td >{a.alamat}</td>
-                                    <td >{a.tempatLahir}</td>
-                                    <td >{a.tanggalLahir}</td>
-                                    <td >{a.jenisKelamin}</td>
-                                    <td >{a.nomorHp}</td>
-                                    <td >{a.tahunAngkatan}</td>
-                                    <td >{a.fotoKtp}</td>
-                                    <td >{a.fotoProfile}</td>
-                                    
+                                    <td>{a.profile.nim}</td>
+                                    <td>{a.profile.namaDepan}</td>
+                                    <td >{a.profile.namaBelakang}</td>
+                                    <td >{a.profile.alamat}</td>
+                                    <td >{a.profile.tempatLahir}</td>
+                                    <td >{a.profile.tanggalLahir}</td>
+                                    <td >{a.profile.jenisKelamin}</td>
+                                    <td >{a.profile.nomorHp}</td>
+                                    <td >{a.profile.tahunAngkatan}</td>
+                                    <td >{a.profile.fotoKtp}</td>
+                                    <td >{a.profile.fotoProfile}</td>
+
                                 </tr>
                             )
                         })}
@@ -99,6 +183,33 @@ class App extends Component {
                 <canvas width={500} height={1000}></canvas>
             </main>
 
+        </div>
+    )
+
+}
+
+
+class App extends Component {
+    constructor(props) {
+        super(props)
+
+        /**@type {User} */
+        let Agt = []
+        let updateAgt = {}
+        this.state = { Agt: Agt, updateAgt }
+        this.updateState = this.updateState.bind(this)
+
+        axios.get('http://localhost:5000/api/v1/userInclude').then(a => this.updateState(a.data))
+    }
+    updateState(b) {
+        this.setState({
+            Agt: b
+        })
+    }
+
+    render() {
+        return (
+            <IsiAgt state={this.state} />
         )
     }
 

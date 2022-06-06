@@ -34,6 +34,7 @@ import { Anggota } from './HalamanAdmin/anggota';
 import { RencanaKerja } from './HalamanAdmin/rencana_kerja';
 import { Pengumuman } from './HalamanAdmin/pengumuman';
 import { Berita } from './HalamanAdmin/berita';
+import { UpdateAnggota } from './HalamanAdmin/update_anggota';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <Provider store={store}>
@@ -53,6 +54,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                     <Route path='halaman-pengurus' element={<Pengurus/>}/>
                     <Route path='halaman-update-pengurus' element={<UpdatePengurus/>}/>
                     <Route path='halaman-anggota' element={<Anggota/>}/>
+                    <Route path='halaman-update-anggota' element={<UpdateAnggota/>}/>
                     <Route path='halaman-rencana-kerja' element={<RencanaKerja/>}/>
                     <Route path='halaman-pengumuman' element={<Pengumuman/>}/>
                     <Route path='halaman-berita' element={<Berita/>}/>
