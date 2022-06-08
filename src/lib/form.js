@@ -20,7 +20,7 @@ function AdaValuenya({ values, ketikaBerubah }) {
                     <div className=" ">
                         <label>{itm}</label>
                         {/* elm = html input */}
-                        <input value={values[itm]} className="form-control" placeholder={"Masukkan " +itm}
+                        <input  className="form-control" placeholder={values[itm]}
                             onChange={(elm) => {
                                 body[itm] = elm.target.value
                                 ketikaBerubah(body)

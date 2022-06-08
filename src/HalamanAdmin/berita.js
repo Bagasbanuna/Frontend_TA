@@ -15,6 +15,38 @@ function Berita() {
                 </button> */}
                 </div>
             </div>
+            <table className="table table-striped">
+                <thead>
+                    <tr>
+                        <th>
+                            Judul
+                        </th>
+                        <th>
+                            Tanggal Kegiatan
+                        </th>
+                        <th>
+                            Keterangan
+                        </th>
+                        <th>
+                            Foto
+                        </th>
+                        <th>
+                            Aksi
+                        </th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>...</td>
+                        <td>...</td>
+                        <td>...</td>
+                        <td>...</td>
+                        <td>...</td>
+                    </tr>
+                </tbody>
+
+            </table>
         </main>
 
     )

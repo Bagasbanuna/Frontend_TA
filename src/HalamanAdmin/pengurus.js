@@ -72,21 +72,46 @@ var User = [
         ]
     }]
 
-let modelUser = {profileData: User}
+let modelUser = { profileData: User }
 
-function cekNull(data){
+function cekPofile(data, key) {
+    try {
+        return data.profile[key]
+    } catch (error) {
+        return 'nol'
+    }
+}
+
+function cekNull(data) {
     try {
         return data.profile.jurusan['namaJurusan']
     } catch (error) {
-        return "kosong"
+        return "*kosong"
     }
 }
+
+function cekDvs(data) {
+    try {
+        return data.profile.divisi['namaDivisi']
+    } catch (error) {
+        return '*kosong'
+    }
+}
+
+function cekJbtn(data) {
+    try {
+        return data.profile.jabatan['namaJabatan']
+    } catch (error) {
+        return '*kosong'
+    }
+}
+
 
 /**
  * @param {object} param
  * @param {modelUser} param.state
  */
-function Wadah({ state }) {
+function Wadah({ upd, state }) {
     let nav = useNavigate()
     return (
         <div>
@@ -141,7 +166,7 @@ function Wadah({ state }) {
                                     Nomor HP
                                 </th>
                                 <th>
-                                    Tahun Angkatan
+                                    Angkatan
                                 </th>
                                 <th>
                                     Foto
@@ -157,13 +182,16 @@ function Wadah({ state }) {
                         <tbody>
 
                             {state.profileData.map(e => {
-                                return (
+                                return e.profile == null ? <tr key={e.Id} /> : (
                                     <tr key={e.Id}>
 
                                         <td>{e.profile.nim}</td>
-                                        <td>{e.profile.namaDepan}</td>
-                                        <td>{e.profile.namaBelakang}</td>
+                                        <td>{cekPofile(e, "namaDepan")}</td>
+                                        <td>{cekPofile(e, "namaBelakang")}</td>
                                         <td>{cekNull(e)}</td>
+                                        <td>{cekDvs(e)}</td>
+                                        <td>{cekJbtn(e)}</td>
+
 
                                         {/* <td>{e.profile.jabatan.map(e => {
                                             return (
@@ -177,26 +205,38 @@ function Wadah({ state }) {
                                             )
                                         })}</td> */}
 
-                                        <td>{e.profile.alamat}</td>
-                                        <td>{e.profile.tempatLahir}</td>
-                                        <td>{e.profile.tanggalLahir}</td>
-                                        <td>{e.profile.jenisKelamin}</td>
-                                        <td>{e.profile.nomorHp}</td>
-                                        <td>{e.profile.tahunAngkatan}</td>
-                                        <td>{e.profile.fotoProfile}</td>
-                                        <td>{e.profile.fotoKtp}</td>
+                                        <td>{cekPofile(e, "alamat")}</td>
+                                        <td>{cekPofile(e, "tempatLahir")}</td>
+                                        <td>{cekPofile(e, "tanggalLahir")}</td>
+                                        <td>{cekPofile(e, "jenisKelamin")}</td>
+                                        <td>{cekPofile(e, "nomorHp")}</td>
+                                        <td>{cekPofile(e, "tahunAngkatan")}</td>
+                                        <td>{cekPofile(e, "fotoProfile")}</td>
+                                        <td>{cekPofile(e, "fotoKtp")}</td>
                                         <td>
 
                                             <div className="row">
-                                                {/* <Link to={'/halaman-admin/halaman-update-pengurus'}> */}
                                                 <Tombol title={"Edit"} warna={'success'} className={'btn btn-sm'} onClick={() => {
                                                     state.updateData = e
                                                     nav('/halaman-admin/halaman-update-pengurus', { state: e.profile })
                                                 }}></Tombol>
-                                                {/* </Link> */}
+
 
                                                 <Tombol title={"Hapus"} warna={'danger'} className={' btn btn-sm'}
-                                                    onClick={() => { }} />
+                                                    onClick={() => {
+                                                        axios.delete('http://localhost:5000/api/v1/profile/delete/' + e.profile.Id).then(e => {
+                                                            axios.get('http://localhost:5000/api/v1/userInclude').then((e) => {
+                                                                upd.setState({
+                                                                    profileData: e.data
+                                                                })
+                                                            })
+                                                        })
+                                                        // console.log(e.profile.Id)
+                                                    }}
+
+
+
+                                                />
 
 
                                             </div>
@@ -215,14 +255,19 @@ function Wadah({ state }) {
 
 class App extends Component {
 
-    constructor(props) {
+    ambilData() {
         axios.get('http://localhost:5000/api/v1/userInclude').then((e) => {
-            console.log(e.data)
+            // console.log(e.data)
             this.updateData(e.data)
         })
+    }
+
+    constructor(props) {
+
         // axios.get('http://localhost:5000/api/v1/jabatan').then(j=> this.updateState(j.data))
 
         super(props)
+        this.ambilData()
 
         /**@type {User} */
         let profileData = []
@@ -249,7 +294,7 @@ class App extends Component {
 
         return (
             <div >
-                <Wadah state={this.state} />
+                <Wadah upd={this} state={this.state} />
 
 
             </div>

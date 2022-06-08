@@ -1,4 +1,5 @@
-import { useLocation } from "react-router-dom"
+import axios from "axios"
+import { useLocation, useNavigate } from "react-router-dom"
 import { Tombol } from "../lib/button"
 import { MyForm } from "../lib/form"
 
@@ -7,9 +8,14 @@ import { MyForm } from "../lib/form"
 function UpdatePengurus({ route }) {
     let state = useLocation()
     let data = state.state
+    let perubahanData = {};
+    let hasil = {}
     delete data.jabatan
     delete data.divisi
     delete data.jurusan
+
+    let nav = useNavigate()
+
     return (
         <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -29,10 +35,20 @@ function UpdatePengurus({ route }) {
                     </div>
                 </div>
             </div>
+            <input onChange={(e) => console.log("hdhdhd")}/>
             <MyForm values={data}ketikaBerubah={e => {
-                console.log(e)
+              hasil = e
+               
             }} />
-            <Tombol title={'Simpan'} warna={'primary'}/>
+            <Tombol title={'Simpan'} warna={'primary'} onClick={() => {
+                let hasilAkhir = Object.assign(data, hasil)
+                axios.post('http://localhost:5000/api/v1/profile/update', hasilAkhir).then(e=> {
+                    console.log(e.data)
+                    nav('/halaman-admin/halaman-pengurus')
+                })
+            }
+            
+            }/>
 
 
 

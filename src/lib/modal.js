@@ -56,7 +56,7 @@ function MyModal() {
     return ( 
 
         Swal.fire({
-            html: ReactDOMServer.renderToString(<MyForm items={['saru', 'dua']}/>),
+            html: ReactDOMServer.renderToString(<MyForm items={['Judul', 'Tanggal', 'Keterangan', 'Gambar']}/>),
             showDenyButton: true,
             showCancelButton: true,
             confirmButtonText: 'Save',

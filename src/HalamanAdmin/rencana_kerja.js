@@ -134,7 +134,7 @@ class Renja extends Component {
                     </div>
                 </div>
                 <div>
-                    <Tombol title={'Pop'} onClick={()=> {MyModal()}}/>
+                    <Tombol title={'Tambah'} warna={'primary'} onClick={()=> {MyModal()}}/>
 
                     <table className="table table-striped " style={{ width: '3000' }}>
                         <thead>
