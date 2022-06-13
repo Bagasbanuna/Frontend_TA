@@ -16,11 +16,11 @@ async function kirim(body) {
     }
 
     // untuk atur lokasi button
-    window.location.href = "/"
+    window.location.href = "/login"
 
     // let data= await axios.post('http://localhost:5000/api/v1/registrasi', body)
     // console.log(data.data)
-}
+} 
 
 
 

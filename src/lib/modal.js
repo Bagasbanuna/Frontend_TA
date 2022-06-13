@@ -59,8 +59,8 @@ function MyModal() {
             html: ReactDOMServer.renderToString(<MyForm items={['Judul', 'Tanggal', 'Keterangan', 'Gambar']}/>),
             showDenyButton: true,
             showCancelButton: true,
-            confirmButtonText: 'Save',
-            denyButtonText: `Don't save`,
+            confirmButtonText: 'Simpan',
+            denyButtonText: `Jangan Simpan`,
           }).then((result) => {
             /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {

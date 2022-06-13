@@ -4,7 +4,7 @@ import { user } from "../store"
 
 
 function HalamanProfile() {
-    console.log("halaman profile")
+    console.log("halaman profile") 
 
     return (
         <div className="container">

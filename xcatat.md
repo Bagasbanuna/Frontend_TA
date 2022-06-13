@@ -122,7 +122,6 @@ npm i axios = jembatan ke database
 
 npm i sweetalert2 = alert / pop up
 
-
 ```
 js
 @media (prefers-reduced-motion: no-preference) {
@@ -132,5 +131,10 @@ js
 }
 ```
 
+Comparation
+
+!= 'not equel'
+
+== ' equel'
 
 ---
