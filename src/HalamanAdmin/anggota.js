@@ -158,7 +158,6 @@ function IsiAgt({ state }) {
             })}
           </tbody>
         </table>
-        
       </main>
     </div>
   );

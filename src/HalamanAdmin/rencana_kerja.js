@@ -3,255 +3,226 @@ import { Tombol } from "../lib/button";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { Modal2, MyModal } from "../lib/modal";
+import { MyForm } from "../lib/form";
 
 var User = [
   {
-    Id: 1,
-    username: "user1",
-    email: "user1@gmail.com",
-    password: "user1",
-    createAt: "2022-05-10T15:24:30.177Z",
-    updateAt: "2022-05-29T15:48:06.169Z",
-    profile: {
-      Id: 1,
-      nim: 1,
-      namaDepan: "namaDepan1",
-      namaBelakang: "namaBelakang1",
-      alamat: "alamat1",
-      tempatLahir: "tempatLahir1",
-      tanggalLahir: "tanggalLahir1",
-      jenisKelamin: "jenisKelamin1",
-      nomorHp: "nomorHp1",
-      tahunAngkatan: 203,
-      fotoKtp: "fotoKtp1",
-      fotoProfile: "fotoProfile1",
-      userId: 1,
-      divisi: [
-        {
-          Id: 1,
-          namaDivisi: "kaderisasi",
-          profileId: 1,
-        },
-      ],
-      jabatan: [
-        {
-          Id: 1,
-          namaJabatan: "ketua",
-          profileId: 1,
-        },
-      ],
-      jurusan: [
-        {
-          Id: 1,
-          namaJurusan: "ti-mdi",
-          profileId: 1,
-        },
-      ],
-    },
-    kritiksaran: [
+    Id: 3,
+    title: "semnas",
+    tanggal: "2020-11-01T00:00:00.000Z",
+    keterangan: "user3",
+    createAt: "2022-06-11T14:23:05.581Z",
+    updateAt: "2022-06-13T15:49:26.964Z",
+    status: "user3",
+    userId: 3,
+    files: [
       {
         Id: 1,
-        subjek: "Kamar mandi",
-        komentar: "Jangan lupa bersihkan",
-        userId: 1,
-        User: {
-          Id: 1,
-          username: "user1",
-          email: "user1@gmail.com",
-          password: "user1",
-          createAt: "2022-05-10T15:24:30.177Z",
-          updateAt: "2022-05-29T15:48:06.169Z",
-        },
-      },
-    ],
-    rencanakerja: [
-      {
-        Id: 1,
-        title: "Kajian Subuh",
-        tanggal: "2022-04-01T00:00:00.000Z",
-        keterangan: "Kajian diadakan di masjid",
-        createAt: "2022-05-11T09:00:01.665Z",
-        updateAt: "2022-05-11T09:00:01.666Z",
-        status: "Pending",
-        userId: 1,
-        files: [
+        file: "Seminar",
+        createAt: "2022-06-13T15:34:24.768Z",
+        rencanakerjaId: 3,
+        jenisFileId: 1,
+        gallery: [
           {
             Id: 1,
-            file: "LPJ Semnas",
-            createAt: "2022-05-12T07:46:53.652Z",
-            rencanakerjaId: 1,
-            jenisFileId: null,
-            gallery: [
-              {
-                Id: 1,
-                gambar: "rewofkmmfqeofo",
-                filesId: 1,
-              },
-            ],
-            jenisFile: null,
+            gambar: "dgdgdghfh",
+            filesId: 1,
           },
         ],
+        jenisFile: {
+          Id: 1,
+          jenisFile: "LPJ",
+          filesId: 1,
+        },
       },
     ],
   },
 ];
 
-
-
-let adaUser = window.localStorage.getItem('user')
-let iniUser = JSON.parse(adaUser).Id
-
-console.log (iniUser)
 class RenjaByUser extends Component {
   constructor(props) {
-    axios
-      .get("http://localhost:5000/api/v1/rencanakerja-by-user/"+iniUser)
-      .then((r) => {
-        console.log(r.data);
-        this.updateRenja(r.data);
-      });
-    super(props);
+    try {
+      let adaUser = window.localStorage.getItem("user");
+      let iniUser = JSON.parse(adaUser).Id;
+      axios
+        .get("http://localhost:5000/api/v1/rencanakerja-by-user/" + iniUser)
+        .then((r) => {
+          console.log(r.data);
+          this.updateRenja(r.data);
+        });
+      super(props);
 
-    let Renja =[];
-    this.state = {
-      Renja: Renja,
-    };
+      /**@type {User} */
+      let Renja = [];
+      this.state = {
+        Renja: Renja,
+      };
 
-    this.updateRenja = this.updateRenja.bind(this);
+      this.updateRenja = this.updateRenja.bind(this);
+    } catch (error) {
+      console.log("hahahah werror");
+    }
   }
 
   updateRenja(a) {
     this.setState({
-        Renja:a
+      Renja: a,
     });
   }
 
-  
-  render(){
-    return(
-        <div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                    </tr>
-
-                </thead>
-                
-                <tbody>
-
-                </tbody>
-            </table>
-        </div>
-    )
+  render() {
+    return <IsiRenja state={this.state} />;
   }
-  
+}
+
+const body = {
+  title: "",
+  tanggal: "",
+};
+
+function IsiRenja({ state }) {
+  return (
+    <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+      <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 className="h2">Rencana Kerja </h1>
+        <div className="btn-toolbar mb-2 mb-md-0">
+          <div className="btn-group me-2"></div>
+        </div>
+      </div>
+      <div>
+        <TambahRenja />
+
+        <table className="table table-striped " style={{ width: "3000" }}>
+          <thead>
+            <tr>
+              <th>Nama Pengurus</th>
+              <th>Judul</th>
+              <th>Tanggal Kegiatan</th>
+              <th>Keterangan</th>
+              <th>Status</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody>
+            {state.Renja.map((r) => {
+              return (
+                <tr key={r.Id}>
+                  <td>{r.userId}</td>
+                  <td>{r.title}</td>
+                  <td>{r.tanggal}</td>
+                  <td>{r.keterangan}</td>
+                  <td>{r.status}</td>
+                  <td>
+                    <Tombol title={"Edit"} warna={"success"} />
+
+                    <Tombol title={"Hapus"} warna={"danger"} />
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    </main>
+  );
+}
+
+const Isi = {
+  title: "",
+  tanggal: "",
+  keterangan: "",
+  status: ""
+};
+
+function TambahRenja() {
+
+  let adaData = window.localStorage.getItem('user')
+  let iniData = JSON.parse(adaData)
+
+  return (
+    <div>
+      <details>
+        <summary className="btn btn-primary">Tambah</summary>
+        <div>
+          <div>
+            <label className="form-lebel">Judul</label>
+            <input
+              type={"text"}
+              className="form-control"
+              id="title"
+              onChange={(e) => {
+                Isi["title"] = e.target.value;
+              }}
+            ></input>
+          </div>
+          <div>
+            <label className="form-lebel">Tanggal</label>
+            <input
+              type={"date"}
+              className="form-control"
+              id="tanggal"
+              onChange={(e) => {
+                Isi["tanggal"] = e.target.value;
+              }}
+            ></input>
+          </div>
+          <div>
+            <label className="form-lebel">Keterangan</label>
+            <input
+              type={"text"}
+              className="form-control"
+              id="keterangan"
+              onChange={(e) => {
+                Isi["keterangan"] = e.target.value;
+              }}
+            ></input>
+          </div>
+          <div>
+            <label className="form-lebel">Status</label>
+            <input
+              type={"text"}
+              className="form-control"
+              id="status"
+              onChange={(e) => {
+                Isi["status"] = e.target.value;
+              }}
+            ></input>
+          </div>
+
+          <Tombol
+            title={"Simpan"}
+            warna={"info"}
+            onClick={() => {
+              Isi.userId = iniData.userId
+              console.log(Isi)
+
+              
+              axios
+                .post("http://localhost:5000/api/v1/rencanakerja", Isi)
+                .then((e) => {
+                  console.log(e);
+                });
+            }}
+          />
+        </div>
+      </details>
+    </div>
+  );
+}
+
+{
+  /* <MyForm
+            items={["title", "tanggal", "keterangan"]}
+            ketikaBerubah={() => {
+              axios.post('http://localhost:5000/api/v1/rencanakerja', Isi).then((r) =>{
+                console.log(r)
+              })
+            }}
+          /> */
 }
 
 function RencanaKerja() {
-    return(
-        <RenjaByUser/>
-    )
+  return <RenjaByUser />;
 }
 
 export { RencanaKerja };
-
-// class Renja extends Component {
-//   constructor(props) {
-//     axios.get("http://localhost:5000/api/v1/userInclude").then((e) => {
-//       console.log(e.data);
-//       this.updateRenja(e.data);
-//     });
-//     super(props);
-
-//     /**
-//      * @type {User}
-//      */
-//     let Renja = [];
-//     this.state = { Renja: Renja };
-
-//     this.updateRenja = this.updateRenja.bind(this);
-//   }
-
-//   updateRenja(a) {
-//     this.setState({
-//       Renja: a,
-//     });
-//   }
-
-//   render() {
-//     return (
-//       <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-//         <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-//           <h1 className="h2">Rencana Kerja </h1>
-//           <div className="btn-toolbar mb-2 mb-md-0">
-//             <div className="btn-group me-2"></div>
-//           </div>
-//         </div>
-//         <div>
-//           <Tombol
-//             title={"Tambah"}
-//             warna={"primary"}
-//             onClick={() => {
-//               MyModal();
-//             }}
-//           />
-
-//           <table className="table table-striped " style={{ width: "3000" }}>
-//             <thead>
-//               <tr>
-//                 <th>Nama Pengurus</th>
-//                 <th>Judul</th>
-//                 <th>Tanggal Kegiatan</th>
-//                 <th>Keterangan</th>
-//                 <th>Status</th>
-//                 <th>Aksi</th>
-//               </tr>
-//             </thead>
-//             <tbody>
-//               {this.state.Renja.map((r) => {
-//                 return (
-//                   <tr key={r.Id}>
-//                     <td>
-//                       <div>{r.profile.namaDepan}</div>
-//                       <br />
-//                       <hr />
-//                       <div>{r.rencanakerja.map((e) => {
-//                         return (
-//                             <div key={e.Id}>
-//                                 {e.title}
-//                             </div>
-//                         )
-//                       })}</div>
-//                     </td>
-//                     {/* <td>
-//                       {r.rencanakerja.map((e) => {
-//                         return <div key={e.Id}>{e.title}</div>;
-//                       })}
-//                     </td>
-//                     <td>
-//                       {r.rencanakerja.map((e) => {
-//                         return <div key={e.Id}>{e.tanggal}</div>;
-//                       })}
-//                     </td>
-//                     <td>
-//                       {r.rencanakerja.map((e) => {
-//                         return <div key={e.Id}>{e.keterangan}</div>;
-//                       })}
-//                     </td>
-//                     <td>{r.status}</td> */}
-//                     <td>
-//                       <Tombol title={"Edit"} warna={"success"} />
-
-//                       <Tombol title={"Hapus"} warna={"danger"} />
-//                     </td>
-//                   </tr>
-//                 );
-//               })}
-//             </tbody>
-//           </table>
-//         </div>
-//       </main>
-//     );
-//   }
-// }

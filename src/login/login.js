@@ -127,11 +127,17 @@ function FormLogin() {
                   Swal.fire("Login Berhasil");
                   console.log(AdaDivisi);
                   if (AdaDivisi) {
-                    window.localStorage.setItem("user", JSON.stringify(e.data.data.profile));
+                    window.localStorage.setItem(
+                      "user",
+                      JSON.stringify(e.data.data.profile)
+                    );
                     window.localStorage.setItem("AdaDivisi", `${AdaDivisi}`);
                     nav("/halaman-admin/halaman-dashboard");
                   } else {
-                    window.localStorage.setItem("user", JSON.stringify(e.data.data.profile));
+                    window.localStorage.setItem(
+                      "user",
+                      JSON.stringify(e.data.data.profile)
+                    );
                     nav("/");
                   }
                 } catch (error) {
