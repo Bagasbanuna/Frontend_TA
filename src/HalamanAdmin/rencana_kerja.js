@@ -39,6 +39,25 @@ var User = [
   },
 ];
 
+var Status = [
+  {
+    id: 1,
+    name: "On Progress",
+  },
+  {
+    id: 2,
+    name: "Accept",
+  },
+  {
+    id: 3,
+    name: "Done",
+  },
+  {
+    id: 4,
+    name: "Cencel",
+  },
+];
+
 class RenjaByUser extends Component {
   constructor(props) {
     try {
@@ -50,15 +69,25 @@ class RenjaByUser extends Component {
           console.log(r.data);
           this.updateRenja(r.data);
         });
+
+      axios.get("http://localhost:5000/api/v1/status-renja").then((e) => {
+        console.log(e.data);
+        this.updateStatus(e.data);
+      });
+
       super(props);
 
       /**@type {User} */
       let Renja = [];
+      /**@type {Status} */
+      let StatusRenja = [];
       this.state = {
         Renja: Renja,
+        StatusRenja,
       };
 
       this.updateRenja = this.updateRenja.bind(this);
+      this.updateStatus = this.updateStatus.bind(this);
     } catch (error) {
       console.log("hahahah werror");
     }
@@ -70,14 +99,19 @@ class RenjaByUser extends Component {
     });
   }
 
+  updateStatus(b) {
+    this.setState({
+      StatusRenja: b,
+    });
+  }
+
   render() {
     return <IsiRenja state={this.state} />;
   }
 }
 
-const body = {
-  title: "",
-  tanggal: "",
+let newStatus = {
+  statusR: "",
 };
 
 function IsiRenja({ state }) {
@@ -100,6 +134,7 @@ function IsiRenja({ state }) {
               <th>Tanggal Kegiatan</th>
               <th>Keterangan</th>
               <th>Status</th>
+
               <th>Aksi</th>
             </tr>
           </thead>
@@ -111,7 +146,30 @@ function IsiRenja({ state }) {
                   <td>{r.title}</td>
                   <td>{r.tanggal}</td>
                   <td>{r.keterangan}</td>
-                  <td>{r.status}</td>
+
+                  <td>
+                    <select
+                      onChange={(c) => {
+                        newStatus["statusR"] = c.target.value;
+                        console.log(newStatus);
+                      }}
+                    >
+                      {state.StatusRenja.map((e) => {
+                        return <option key={e.id}>{e.name}</option>;
+                      })}
+                    </select>
+                    <hr />
+                    <Tombol
+                      title={"Ganti"}
+                      warna={"success"}
+                      onClick={() => {
+                        console.log(newStatus.statusR);
+
+
+                      }}
+                    />
+                  </td>
+
                   <td>
                     <Tombol title={"Edit"} warna={"success"} />
 
@@ -131,13 +189,12 @@ const Isi = {
   title: "",
   tanggal: "",
   keterangan: "",
-  status: ""
+  status: "",
 };
 
 function TambahRenja() {
-
-  let adaData = window.localStorage.getItem('user')
-  let iniData = JSON.parse(adaData)
+  let adaData = window.localStorage.getItem("user");
+  let iniData = JSON.parse(adaData);
 
   return (
     <div>
@@ -177,26 +234,15 @@ function TambahRenja() {
               }}
             ></input>
           </div>
-          <div>
-            <label className="form-lebel">Status</label>
-            <input
-              type={"text"}
-              className="form-control"
-              id="status"
-              onChange={(e) => {
-                Isi["status"] = e.target.value;
-              }}
-            ></input>
-          </div>
+
 
           <Tombol
             title={"Simpan"}
             warna={"info"}
             onClick={() => {
-              Isi.userId = iniData.userId
-              console.log(Isi)
+              Isi.userId = iniData["userId"];
+              console.log(Isi);
 
-              
               axios
                 .post("http://localhost:5000/api/v1/rencanakerja", Isi)
                 .then((e) => {
