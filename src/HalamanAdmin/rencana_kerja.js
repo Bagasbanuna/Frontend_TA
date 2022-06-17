@@ -1,9 +1,10 @@
 import { Component } from "react";
 import { Tombol } from "../lib/button";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Modal2, MyModal } from "../lib/modal";
 import { MyForm } from "../lib/form";
+import { FileUpload } from "./upload_file";
 
 var User = [
   {
@@ -110,11 +111,13 @@ class RenjaByUser extends Component {
   }
 }
 
-let newStatus = {
+const newStatus = {
   statusR: "",
 };
 
 function IsiRenja({ state }) {
+  let nav = useNavigate();
+
   return (
     <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
       <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -133,6 +136,7 @@ function IsiRenja({ state }) {
               <th>Judul</th>
               <th>Tanggal Kegiatan</th>
               <th>Keterangan</th>
+              <th>File</th>
               <th>Status</th>
 
               <th>Aksi</th>
@@ -146,6 +150,7 @@ function IsiRenja({ state }) {
                   <td>{r.title}</td>
                   <td>{r.tanggal}</td>
                   <td>{r.keterangan}</td>
+                  <td>{r.file}</td>
 
                   <td>
                     <select
@@ -165,15 +170,25 @@ function IsiRenja({ state }) {
                       onClick={() => {
                         console.log(newStatus.statusR);
 
-
+                        axios
+                          .post("/status-renja/update", newStatus)
+                          .then((e) => {
+                            console.log(e);
+                          });
                       }}
                     />
                   </td>
-
                   <td>
-                    <Tombol title={"Edit"} warna={"success"} />
-
-                    <Tombol title={"Hapus"} warna={"danger"} />
+                    <div className="row">
+                      <div className="col">
+                        <Tombol title={"Edit"} warna={"success"} />
+                      </div>
+                      <div className="col">
+                        <Tombol title={"Hapus"} warna={"danger"} onClick={() =>{
+                          axios.delete('http://localhost:5000/api/v1/rencanakerja/delete')
+                        }}/>
+                      </div>
+                    </div>
                   </td>
                 </tr>
               );
@@ -190,9 +205,11 @@ const Isi = {
   tanggal: "",
   keterangan: "",
   status: "",
+  file: ""
 };
 
 function TambahRenja() {
+  // getItem ganya untuk ambil data user saja
   let adaData = window.localStorage.getItem("user");
   let iniData = JSON.parse(adaData);
 
@@ -234,7 +251,11 @@ function TambahRenja() {
               }}
             ></input>
           </div>
-
+          <hr />
+          <FileUpload hasil={(e) => {
+            Isi['file'] = e
+          }}/>
+          <hr/>
 
           <Tombol
             title={"Simpan"}
