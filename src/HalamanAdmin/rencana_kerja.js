@@ -59,6 +59,16 @@ var Status = [
   },
 ];
 
+var IniFile = [
+  {
+    Id: 1,
+    file: "84ff8bf6-1ec9-4bce-8880-4d3e8135292fRevisi dosen 2.docx",
+    createAt: "2022-06-17T16:38:21.478Z",
+    rencanakerjaId: 28,
+    jenisFileId: null,
+  },
+];
+
 class RenjaByUser extends Component {
   constructor(props) {
     try {
@@ -76,19 +86,30 @@ class RenjaByUser extends Component {
         this.updateStatus(e.data);
       });
 
+      axios.get("http://localhost:5000/api/v1/files").then((f) => {
+        console.log(f.data);
+        this.updateFile(f.data)
+      });
+
       super(props);
 
       /**@type {User} */
       let Renja = [];
       /**@type {Status} */
       let StatusRenja = [];
+
+      /**@type {IniFile} */
+      let AdaFile = [];
+
       this.state = {
         Renja: Renja,
         StatusRenja,
+        AdaFile,
       };
 
       this.updateRenja = this.updateRenja.bind(this);
       this.updateStatus = this.updateStatus.bind(this);
+      this.updateFile = this.updateFile.bind(this)
     } catch (error) {
       console.log("hahahah werror");
     }
@@ -103,6 +124,12 @@ class RenjaByUser extends Component {
   updateStatus(b) {
     this.setState({
       StatusRenja: b,
+    });
+  }
+
+  updateFile(f) {
+    this.setState({
+      AdaFile: f,
     });
   }
 
@@ -132,7 +159,7 @@ function IsiRenja({ state }) {
         <table className="table table-striped " style={{ width: "3000" }}>
           <thead>
             <tr>
-              <th>Nama Pengurus</th>
+              <th>Id user</th>
               <th>Judul</th>
               <th>Tanggal Kegiatan</th>
               <th>Keterangan</th>
@@ -150,7 +177,16 @@ function IsiRenja({ state }) {
                   <td>{r.title}</td>
                   <td>{r.tanggal}</td>
                   <td>{r.keterangan}</td>
-                  <td>{r.file}</td>
+                  <td>
+                    {state.AdaFile.map((f) => {
+                      return(
+                        <div key={f.Id}>
+                          <a target={"_blank"} href={"http://localhost:5000/images/"+f.file} >{f.file}</a>
+                        </div>
+
+                      )
+                    })}
+                  </td>
 
                   <td>
                     <select
@@ -184,9 +220,15 @@ function IsiRenja({ state }) {
                         <Tombol title={"Edit"} warna={"success"} />
                       </div>
                       <div className="col">
-                        <Tombol title={"Hapus"} warna={"danger"} onClick={() =>{
-                          axios.delete('http://localhost:5000/api/v1/rencanakerja/delete')
-                        }}/>
+                        <Tombol
+                          title={"Hapus"}
+                          warna={"danger"}
+                          onClick={() => {
+                            axios.delete(
+                              "http://localhost:5000/api/v1/rencanakerja/delete"
+                            );
+                          }}
+                        />
                       </div>
                     </div>
                   </td>
@@ -205,7 +247,8 @@ const Isi = {
   tanggal: "",
   keterangan: "",
   status: "",
-  file: ""
+  file: "",
+  userId: "",
 };
 
 function TambahRenja() {
@@ -252,10 +295,12 @@ function TambahRenja() {
             ></input>
           </div>
           <hr />
-          <FileUpload hasil={(e) => {
-            Isi['file'] = e
-          }}/>
-          <hr/>
+          <FileUpload
+            hasil={(e) => {
+              Isi["file"] = e;
+            }}
+          />
+          <hr />
 
           <Tombol
             title={"Simpan"}
@@ -267,7 +312,7 @@ function TambahRenja() {
               axios
                 .post("http://localhost:5000/api/v1/rencanakerja", Isi)
                 .then((e) => {
-                  console.log(e);
+                  console.log(JSON.stringify(e.data, null, 2));
                 });
             }}
           />
