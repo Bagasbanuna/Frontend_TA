@@ -22,6 +22,10 @@ git remote add origin (copy link dari repository baru)
 
 git checkout -b main
 
+// Jika sudah di clone makan gunakan
+git remote -v
+git remote set -url origin (link )
+
 Switched to a new branch 'main'  (membuat branch baru)
 
 ( ikuti seperti ini)

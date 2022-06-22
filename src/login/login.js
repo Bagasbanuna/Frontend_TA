@@ -56,6 +56,8 @@ function Login() {
 function FormLogin() {
   MyRouter.Init(useNavigate);
   let nav = useNavigate();
+  let user = localStorage.getItem("user");
+
 
   if (window.localStorage.getItem("AdaDivisi") == "true") {
     console.log("Ada divisi");
@@ -63,20 +65,7 @@ function FormLogin() {
     console.log("Belum ada divisi");
   }
 
-  return localStorage.getItem("user") != null ? (
-    <div>
-      <button
-        className="btn btn-danger"
-        onClick={() => {
-          nav("/");
-          console.log("logout");
-          console.log(localStorage.getItem("user"));
-        }}
-      >
-        LOGOUT
-      </button>
-    </div>
-  ) : (
+  return (
     <div className="d-flex justify-content-center mt-5 p-5">
       <div className="col-sm-12 col-md-6 col-lg-4 card p-4 m-2">
         <div className="d-flex justify-content-center ">
@@ -119,32 +108,35 @@ function FormLogin() {
           warna={"primary"}
           onClick={() =>
             axios.post("http://localhost:5000/api/v1/login", body).then((e) => {
-              let apa = e.status === 201;
+              let apa = e.status == 201;
               if (apa) {
                 try {
                   let AdaDivisi =
-                    e["data"]["data"]["profile"]["divisi"] != null;
+                    e["data"]["data"] && e["data"]["data"]["profile"] && e["data"]["data"]["profile"]["divisi"];
+                    
                   Swal.fire("Login Berhasil");
                   console.log(AdaDivisi);
                   if (AdaDivisi) {
                     window.localStorage.setItem(
                       "user",
-                      JSON.stringify(e.data.data.profile)
+                      JSON.stringify(e.data.data)
                     );
                     window.localStorage.setItem("AdaDivisi", `${AdaDivisi}`);
                     nav("/halaman-admin/halaman-dashboard");
                   } else {
                     window.localStorage.setItem(
                       "user",
-                      JSON.stringify(e.data.data.profile)
+                      JSON.stringify(e.data.data)
                     );
                     nav("/");
                   }
                 } catch (error) {
+                  console.log(error)
                   console.log("Tidak Ada Divisi");
+                  Swal.fire("codingan error");
                 }
               } else {
-                Swal.fire("Login Gagal ,Isi Dengan Benar");
+                Swal.fire("Login Gagal ,email atau password salah");
               }
             })
           }

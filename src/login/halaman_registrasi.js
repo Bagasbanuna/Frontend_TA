@@ -67,10 +67,15 @@ function HalamanRegis() {
         </div>
 
         <button
-          type="submit"
           className="btn btn-primary"
           onClick={() => {
             kirim(body);
+            console.log(body)
+
+            axios.post("http://localhost:5000/api/v1/registrasi", body).then((e) => {
+              console.log(e.data)
+            })
+            
           }}
         >
           Daftar

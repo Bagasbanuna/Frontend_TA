@@ -128,6 +128,7 @@ function IsiAgt({ state }) {
             {state.Agt.map((a) => {
               return (
                 <tr key={a.Id}>
+                  
                   <td>
                     <Tombol
                       title={"Edit"}
@@ -142,17 +143,17 @@ function IsiAgt({ state }) {
 
                     <Tombol title={"Hapus"} warna={"danger"} />
                   </td>
-                  <td>{a.profile.nim}</td>
-                  <td>{a.profile.namaDepan}</td>
-                  <td>{a.profile.namaBelakang}</td>
-                  <td>{a.profile.alamat}</td>
-                  <td>{a.profile.tempatLahir}</td>
-                  <td>{a.profile.tanggalLahir}</td>
-                  <td>{a.profile.jenisKelamin}</td>
-                  <td>{a.profile.nomorHp}</td>
-                  <td>{a.profile.tahunAngkatan}</td>
-                  <td>{a.profile.fotoKtp}</td>
-                  <td>{a.profile.fotoProfile}</td>
+                  <td>{antiNull(a,"nim")}</td>
+                  <td>{antiNull(a,"namaDepan")}</td>
+                  <td>{antiNull(a,"namaBelakang")}</td>
+                  <td>{antiNull(a,"alamat")}</td>
+                  <td>{antiNull(a,"tempatLahir")}</td>
+                  <td>{antiNull(a,"tanggalLahir")}</td>
+                  <td>{antiNull(a,"jenisKelamin")}</td>
+                  <td>{antiNull(a,"nomorHp")}</td>
+                  <td>{antiNull(a,"tahunAngkatan")}</td>
+                  <td>{antiNull(a,"fotoKtp")}</td>
+                  <td>{antiNull(a,"fotoProfile")}</td>
                 </tr>
               );
             })}
@@ -161,6 +162,14 @@ function IsiAgt({ state }) {
       </main>
     </div>
   );
+}
+
+function antiNull(data, value){
+  try {
+    return data.profile[value]
+  } catch (error) {
+    return "null"
+  }
 }
 
 class App extends Component {
@@ -175,7 +184,10 @@ class App extends Component {
 
     axios
       .get("http://localhost:5000/api/v1/userInclude")
-      .then((a) => this.updateState(a.data));
+      .then((a)=> {
+        console.log(a.data)
+        this.updateState(a.data)
+      });
   }
   updateState(b) {
     this.setState({
@@ -183,8 +195,10 @@ class App extends Component {
     });
   }
 
+  
+
   render() {
-    return <IsiAgt state={this.state} />;
+    return this.state.Agt == null? (<div>data kosong</div>): (<IsiAgt state={this.state} />);
   }
 }
 

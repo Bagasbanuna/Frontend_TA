@@ -9,11 +9,16 @@ function TampilanProfile() {
   let hasil = {};
   MyRouter.Init(useNavigate);
   let nav = useNavigate();
+  let user = JSON.parse(window.localStorage.getItem("user"));
+  if (!user)
+    setTimeout(() => {
+      nav("/login");
+    }, 500);
+  delete console.log(window.localStorage.getItem("user"));
 
-  delete  
-  console.log(window.localStorage.getItem("user"));
-
-  return (
+  return user == null ? (
+    <div>data kosong</div>
+  ) : (
     <div className="container d-flex justify-content-end">
       <div className="col-sm-12 col-md-6 col-lg-4 card mt-4 p-2">
         <h3>Profile</h3>
@@ -28,13 +33,27 @@ function TampilanProfile() {
         >
           LOGOUT
         </button>
-        <MyForm
+
+        {/* <MyForm
           
           ketikaBerubah={(body) => {
             hasil = body;
           }}
-          values ={JSON.parse(window.localStorage.getItem('user'))}
-        />
+          values ={user}
+        /> */}
+        <MyForm
+          items={[
+            "NIM",
+            "Nama Anggota",
+            "Jurusan",
+            "Tempat Lahir",
+            "Tanggal Lahir",
+            "Alamat",
+            "Email",
+            "No HP",
+            "Tahun Ajaran",
+          ]}
+        /> 
 
         <div className="row m-auto">
           <div

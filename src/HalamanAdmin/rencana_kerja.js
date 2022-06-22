@@ -196,7 +196,7 @@ function IsiRenja({ state }) {
                       }}
                     >
                       {state.StatusRenja.map((e) => {
-                        return <option key={e.id}>{e.name}</option>;
+                        return console.log(e)
                       })}
                     </select>
                     <hr />

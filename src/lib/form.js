@@ -16,6 +16,7 @@ function Formulir({ title, placeholder, onChange }) {
 function AdaValuenya({ values, ketikaBerubah }) {
   let body = {};
   let datanya = Object.keys(values);
+   
   return (
     <div className="container">
       {datanya.map((itm) => {
