@@ -1,11 +1,11 @@
 import axios from "axios";
 import { Component } from "react";
 
-class FileUpload extends Component {
-  constructor(props) {
-    super(props);
+class ImageUpload extends Component {
+  constructor(prop) {
+    super(prop);
     this.state = {
-      namaFile: "",
+      namaImage: "",
     };
   }
 
@@ -14,6 +14,8 @@ class FileUpload extends Component {
       <div>
         <input
           type={"file"}
+          name={"myImage"}
+          accept={("image/png" , "image/jpg")}
           onChange={(e) => {
             let files = e.target.files;
             let formData = new FormData();
@@ -22,17 +24,17 @@ class FileUpload extends Component {
               .post("http://localhost:5000/api/v1/upload", formData)
               .then((e) => {
                 this.setState({
-                  namaFile: e.data["data"][0]["name"],
+                  namaImage: e.data["data"][0]["name"],
                 });
 
-                this.props.hasil(e.data["data"][0]["name"]);
+                this.props.hasilgambar(e.data["data"][0]["name"]);
               });
           }}
-        />
-        <div className="p3">{this.state.namaFile}</div>
+        ></input>
+        <div className="p3">{this.state.namaImage}</div>
       </div>
     );
   }
 }
 
-export { FileUpload };
+export { ImageUpload };

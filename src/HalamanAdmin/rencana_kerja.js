@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Modal2, MyModal } from "../lib/modal";
 import { MyForm } from "../lib/form";
 import { FileUpload } from "./upload_file";
+import { ImageUpload } from "./upload_image";
 
 var User = [
   {
@@ -74,12 +75,20 @@ class RenjaByUser extends Component {
     try {
       let adaUser = window.localStorage.getItem("user");
       let iniUser = JSON.parse(adaUser).Id;
-      axios
-        .get("http://localhost:5000/api/v1/rencanakerja-by-user/" + iniUser)
-        .then((r) => {
-          console.log(r.data);
-          this.updateRenja(r.data);
-        });
+
+      // console.log(iniUser)
+      // axios
+      //   .get("http://localhost:5000/api/v1/rencanakerja-by-user/" + iniUser)
+      //   .then((r) => {
+      //     console.log(r.data);
+      //     this.updateRenja(r.data);
+      //   });
+      //   console.log("mantappp")
+
+      axios.get("http://localhost:5000/api/v1/rencanakerja").then((a) => {
+        console.log(a.data)
+        this.updateRenja(a.data)
+      })
 
       axios.get("http://localhost:5000/api/v1/status-renja").then((e) => {
         console.log(e.data);
@@ -88,13 +97,16 @@ class RenjaByUser extends Component {
 
       axios.get("http://localhost:5000/api/v1/files").then((f) => {
         console.log(f.data);
-        this.updateFile(f.data)
+        this.updateFile(f.data);
       });
 
       super(props);
 
       /**@type {User} */
       let Renja = [];
+
+      
+
       /**@type {Status} */
       let StatusRenja = [];
 
@@ -109,7 +121,7 @@ class RenjaByUser extends Component {
 
       this.updateRenja = this.updateRenja.bind(this);
       this.updateStatus = this.updateStatus.bind(this);
-      this.updateFile = this.updateFile.bind(this)
+      this.updateFile = this.updateFile.bind(this);
     } catch (error) {
       console.log("hahahah werror");
     }
@@ -159,7 +171,7 @@ function IsiRenja({ state }) {
         <table className="table table-striped " style={{ width: "3000" }}>
           <thead>
             <tr>
-              <th>Id user</th>
+              
               <th>Judul</th>
               <th>Tanggal Kegiatan</th>
               <th>Keterangan</th>
@@ -173,18 +185,22 @@ function IsiRenja({ state }) {
             {state.Renja.map((r) => {
               return (
                 <tr key={r.Id}>
-                  <td>{r.userId}</td>
+                  
                   <td>{r.title}</td>
                   <td>{r.tanggal}</td>
                   <td>{r.keterangan}</td>
                   <td>
                     {state.AdaFile.map((f) => {
-                      return(
+                      return (
                         <div key={f.Id}>
-                          <a target={"_blank"} href={"http://localhost:5000/images/"+f.file} >{f.file}</a>
+                          <a
+                            target={"_blank"}
+                            href={"http://localhost:5000/images/" + f.file}
+                          >
+                            {f.file}
+                          </a>
                         </div>
-
-                      )
+                      );
                     })}
                   </td>
 
@@ -196,7 +212,7 @@ function IsiRenja({ state }) {
                       }}
                     >
                       {state.StatusRenja.map((e) => {
-                        return console.log(e)
+                        return console.log(e);
                       })}
                     </select>
                     <hr />
@@ -248,6 +264,7 @@ const Isi = {
   keterangan: "",
   status: "",
   file: "",
+
   userId: "",
 };
 
@@ -301,6 +318,11 @@ function TambahRenja() {
             }}
           />
           <hr />
+          <ImageUpload
+            hasilgambar={(e) => {
+              Isi["file"] = e;
+            }}
+          />
 
           <Tombol
             title={"Simpan"}
