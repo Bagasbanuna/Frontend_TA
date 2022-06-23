@@ -86,42 +86,40 @@ class RenjaByUser extends Component {
       //   console.log("mantappp")
 
       axios.get("http://localhost:5000/api/v1/rencanakerja").then((a) => {
-        console.log(a.data)
-        this.updateRenja(a.data)
-      })
-
-      axios.get("http://localhost:5000/api/v1/status-renja").then((e) => {
-        console.log(e.data);
-        this.updateStatus(e.data);
+        console.log(a.data);
+        this.updateRenja(a.data);
       });
 
-      axios.get("http://localhost:5000/api/v1/files").then((f) => {
-        console.log(f.data);
-        this.updateFile(f.data);
-      });
+      // axios.get("http://localhost:5000/api/v1/status-renja").then((e) => {
+      //   console.log(e.data);
+      //   this.updateStatus(e.data);
+      // });
+
+      // axios.get("http://localhost:5000/api/v1/files").then((f) => {
+      //   console.log(f.data);
+      //   this.updateFile(f.data);
+      // });
 
       super(props);
 
       /**@type {User} */
       let Renja = [];
 
-      
+      // /**@type {Status} */
+      // let StatusRenja = [];
 
-      /**@type {Status} */
-      let StatusRenja = [];
-
-      /**@type {IniFile} */
-      let AdaFile = [];
+      // /**@type {IniFile} */
+      // let AdaFile = [];
 
       this.state = {
         Renja: Renja,
-        StatusRenja,
-        AdaFile,
+        // StatusRenja,
+        // AdaFile,
       };
 
       this.updateRenja = this.updateRenja.bind(this);
-      this.updateStatus = this.updateStatus.bind(this);
-      this.updateFile = this.updateFile.bind(this);
+      // this.updateStatus = this.updateStatus.bind(this);
+      // this.updateFile = this.updateFile.bind(this);
     } catch (error) {
       console.log("hahahah werror");
     }
@@ -133,17 +131,17 @@ class RenjaByUser extends Component {
     });
   }
 
-  updateStatus(b) {
-    this.setState({
-      StatusRenja: b,
-    });
-  }
+  // updateStatus(b) {
+  //   this.setState({
+  //     StatusRenja: b,
+  //   });
+  // }
 
-  updateFile(f) {
-    this.setState({
-      AdaFile: f,
-    });
-  }
+  // updateFile(f) {
+  //   this.setState({
+  //     AdaFile: f,
+  //   });
+  // }
 
   render() {
     return <IsiRenja state={this.state} />;
@@ -171,7 +169,6 @@ function IsiRenja({ state }) {
         <table className="table table-striped " style={{ width: "3000" }}>
           <thead>
             <tr>
-              
               <th>Judul</th>
               <th>Tanggal Kegiatan</th>
               <th>Keterangan</th>
@@ -185,11 +182,20 @@ function IsiRenja({ state }) {
             {state.Renja.map((r) => {
               return (
                 <tr key={r.Id}>
-                  
                   <td>{r.title}</td>
                   <td>{r.tanggal}</td>
                   <td>{r.keterangan}</td>
                   <td>
+                    {r.files.map((r) => {
+                      <div key={r.Id}>
+                        <div>
+                        {console.log(r.file)}
+                        </div>
+                        
+                      </div>;
+                    })}
+                  </td>
+                  {/* <td>
                     {state.AdaFile.map((f) => {
                       return (
                         <div key={f.Id}>
@@ -202,9 +208,9 @@ function IsiRenja({ state }) {
                         </div>
                       );
                     })}
-                  </td>
+                  </td> */}
 
-                  <td>
+                  {/* <td>
                     <select
                       onChange={(c) => {
                         newStatus["statusR"] = c.target.value;
@@ -229,10 +235,12 @@ function IsiRenja({ state }) {
                           });
                       }}
                     />
-                  </td>
+                  </td> */}
+
+                  <td>Status</td>
                   <td>
                     <div className="row">
-                      <div className="col">
+                      <div className="col-sm">
                         <Tombol title={"Edit"} warna={"success"} />
                       </div>
                       <div className="col">
@@ -264,6 +272,7 @@ const Isi = {
   keterangan: "",
   status: "",
   file: "",
+  gambar: "",
 
   userId: "",
 };
@@ -320,7 +329,7 @@ function TambahRenja() {
           <hr />
           <ImageUpload
             hasilgambar={(e) => {
-              Isi["file"] = e;
+              Isi["gambar"] = e;
             }}
           />
 
